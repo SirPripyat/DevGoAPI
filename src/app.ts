@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import express from "express";
+import routes from "./routes";
 
 class App {
   public express: express.Application;
@@ -8,10 +9,15 @@ class App {
     this.express = express();
     this.middleware();
     this.database();
+    this.routes();
   }
 
-  public middleware(): void {
+  public middleware() {
     this.express.use(express.json());
+  }
+
+  public routes() {
+    this.express.use(routes);
   }
 
   private async database() {
