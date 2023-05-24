@@ -32,7 +32,9 @@ class App {
   private async database() {
     try {
       mongoose.set("strictQuery", true);
-      await mongoose.connect("mongodb://localhost:27017/devGoAPI");
+      await mongoose.connect(
+        "mongodb+srv://SirPripyat:mQI6gBPheARggqFg@devgoapi.cyvfo7m.mongodb.net/"
+      );
       console.log("Connect database success");
     } catch (error) {
       console.error("Connect database fail. Error: ", error);
