@@ -1,7 +1,6 @@
 import puppeteer, { Page } from "puppeteer";
 import listOfLinksSchema from "./listOfLinks.schema";
 import { ListOfLinksType } from "./listOfLinks.interface";
-import mongoose from "mongoose";
 
 class ListOfLinksService {
   private url: string;
@@ -25,8 +24,6 @@ class ListOfLinksService {
     );
 
     await buttonClick?.click();
-
-    await buttonClick?.dispose();
 
     await this.scrollToBottom(page);
 
@@ -59,6 +56,16 @@ class ListOfLinksService {
     return created;
   }
 
+  private async scrollToBottom(page: Page) {
+    for (let count = 0; count < 3; count++) {
+      await new Promise((r) => setTimeout(r, 1500));
+
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+    }
+  }
+
   private handleListOfLinks(listOfLinks: Array<string | null>) {
     const url = "https://devgo.com.br";
 
@@ -69,20 +76,6 @@ class ListOfLinksService {
     }
 
     return listOfLinks;
-  }
-
-  private async scrollToBottom(page: Page) {
-    let count = 0;
-
-    while (count < 2) {
-      await new Promise((r) => setTimeout(r, 1500));
-
-      await page.evaluate(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-
-      count++;
-    }
   }
 
   public async createOne(link: ListOfLinksType) {
